@@ -30,6 +30,22 @@ body {
     @include flex-container;
     align-items: center;
     justify-content: space-evenly;
+
+    &__player-text {
+        @include font-large;
+    }
+
+    &__player-name {
+        @include font-largest;
+    }
+
+    &__score-text {
+        @include font-large;
+    }
+
+    &__score-value {
+        @include font-largest;
+    }
     
 }
 
@@ -47,4 +63,25 @@ body {
     @include flex-container;
     flex-flow: column;
     align-items: center;
+
+    &__player {
+        border-bottom: 2px solid var(--white-older);
+        margin: 0.8vw;
+    }
+
+    &__h2 {
+        @include font-largest;
+    }
+
+    &__player-name {
+        @include font-large;
+    }
+
+    &__player-text {
+        @include font-medium;
+    }
+
+    &__player-score {
+        @include font-medium;
+    }
 }

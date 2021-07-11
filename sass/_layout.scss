@@ -25,7 +25,12 @@ body {
     grid-column: 1 / -1;
     grid-row: 1 / 2;
     background-color: var(--primary-color-default);
-    color: var(--white-older)
+    color: var(--white-older);
+
+    @include flex-container;
+    align-items: center;
+    justify-content: space-evenly;
+    
 }
 
 .main {
@@ -37,5 +42,9 @@ body {
     grid-column: 2 / span 1;
     grid-row: 2 / -1;
     background-color: var(--primary-color-darkest);
-    color: var(--white-older)
+    color: var(--white-older);
+
+    @include flex-container;
+    flex-flow: column;
+    align-items: center;
 }

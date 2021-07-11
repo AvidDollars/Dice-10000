@@ -28,7 +28,7 @@
 @mixin font-intro {
     @include font(8rem);
     text-align: center;
-    padding: 3vw;
+    padding: 2vw;
 }
 
 // ↓↓↓ PADDINGS ↓↓↓
@@ -60,4 +60,8 @@ $pad-right-vw: 0.5vw;
     background-color: $bg-color;
     width: $size-of-parent;
     height: $size-of-parent;
+}
+
+.hidden {
+    display: none;
 }

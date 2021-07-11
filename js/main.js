@@ -37,3 +37,37 @@ function selectAll(item) {
 function create(element) {
     return document.createElement(element);
 }
+
+function cl(item) {
+    console.log(item);
+}
+
+// ↓↓↓ INTRO SECTION ↓↓↓
+class SelectNumOfPlayers {
+    constructor() {
+        this.playersEl = select(".intro__players-num");
+        this.numOfPlayers = this.playersEl.innerText;
+        
+        this.leftArrEl = select(".intro__players-left");
+        this.leftArrEl.addEventListener("click", this.changeNumber.bind(this));
+
+        this.rightArrEl = select(".intro__players-right");
+        this.rightArrEl.addEventListener("click", this.changeNumber.bind(this));
+    }
+
+    changeNumber(e) {
+        if (e.target === this.rightArrEl && this.numOfPlayers < 6) {
+            this.numOfPlayers++;
+            this.updateNumerWindow();
+        } else if (e.target === this.leftArrEl && this.numOfPlayers > 1) {
+            this.numOfPlayers--;
+            this.updateNumerWindow();
+        }
+    }
+
+    updateNumerWindow() {
+        this.playersEl.innerText = this.numOfPlayers;
+    }
+}
+
+new SelectNumOfPlayers()

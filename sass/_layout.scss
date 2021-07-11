@@ -1,4 +1,5 @@
-@import "mixins"; 
+@import "mixins";
+@import "components"; 
 
 body {
     font-family: 'Open Sans', sans-serif;
@@ -9,6 +10,43 @@ body {
     background-color: var(--white-older);
 
     min-height: 100vh;
+}
+
+.intro {
+    position: absolute;
+    z-index: 10;
+    color: var(--white-oldest);
+    background-color: rgba(0, 0, 0, 0.85);
+    min-width: 100vw;
+    min-height: 100vh;
+
+    .icon {
+        $width: 7rem;
+        width: $width; 
+        height: $width;
+        margin: 0.5em;
+        fill: var(--white-older);
+
+        transition: all 0.3s;
+
+        &:hover {
+            fill: var(--primary-color-default);
+        }
+      }
+    
+    &__h1 {
+        @include font-intro;
+    }
+
+    &__players {
+        @include flex-container;
+        align-items: baseline;
+        justify-content: center;
+
+        &-num {
+            @include font-intro;
+        }
+    }
 }
 
 .btn {

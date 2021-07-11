@@ -1,3 +1,5 @@
+@import "mixins";
+
 // ↓↓↓ FONTS ↓↓↓
 @mixin font($size) {
     font-size: $size;
@@ -32,11 +34,19 @@
 // ↓↓↓ PADDINGS ↓↓↓
 $bd-rad-medium: 10px;
 $pad-medium-vw: 0.2vw 0.8vw;
+$pad-intro-vw: 1vw 2vw;
 $margin-cube: 1vw;
 $pad-right-vw: 0.5vw;
 
 @mixin pad-box($padding: $pad-medium-vw) {
     padding: $padding;
+}
+
+@mixin pad-box-intro {
+    @include pad-box($pad-intro-vw);
+    @include centered-block(40vw);
+    background-color: rgba(white, 0.8);
+
 }
 
 @mixin pad-box-1($bg-color, $bd-rad: $bd-rad-medium) {

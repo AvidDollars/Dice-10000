@@ -1,3 +1,4 @@
+// ↓↓↓ FONTS ↓↓↓
 @mixin font($size) {
     font-size: $size;
 }
@@ -20,4 +21,25 @@
 
 @mixin font-largest {
     @include font(4.2rem)
+}
+
+// ↓↓↓ PADDINGS ↓↓↓
+$bd-rad-medium: 10px;
+$pad-medium-vw: 0.2vw 0.8vw;
+
+@mixin pad-box($padding: $pad-medium-vw) {
+    padding: $padding;
+}
+
+@mixin pad-box-1($bg-color, $bd-rad: $bd-rad-medium) {
+    @include pad-box;
+    border-radius: $bd-rad-medium;
+    background-color: $bg-color;
+}
+
+@mixin circle-box($bg-color, $size-of-parent: 40%) {
+    border-radius: 50%;
+    background-color: $bg-color;
+    width: $size-of-parent;
+    height: $size-of-parent;
 }

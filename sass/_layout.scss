@@ -52,6 +52,27 @@ body {
 .main {
     grid-column: 1 / span 1;
     grid-row: 2 / -1;
+
+    &__cube {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        justify-items: center;
+        align-items: center;
+
+        width: 10vw;
+        height: 10vw;
+
+        border: 2px solid var(--black-oldest);
+
+        @include shadow-small;
+        border-radius: $bd-rad-medium;
+
+        .dot {
+            @include circle-box(var(--primary-color-darker));
+            border: 2px solid var(--black-oldest);
+        }
+    }
 }
 
 .aside {
@@ -65,12 +86,15 @@ body {
     align-items: center;
 
     &__player {
-        border-bottom: 2px solid var(--white-older);
+        //border-bottom: 2px dotted var(--white-older);
         margin: 0.8vw;
+        background-color: var(--primary-color-lighter);
+        @include pad-box-1(var(--primary-color-lighter))
     }
 
     &__h2 {
         @include font-largest;
+        margin-top: 2vw;
     }
 
     &__player-name {

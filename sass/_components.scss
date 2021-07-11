@@ -4,23 +4,29 @@
 }
 
 @mixin font-smallest {
-    @include font(1rem)
+    @include font(1rem);
 }
 
 @mixin font-small {
-    @include font(1.5rem)
+    @include font(1.5rem);
 }
 
 @mixin font-medium {
-    @include font(2.4rem)
+    @include font(2.4rem);
 }
 
 @mixin font-large {
-    @include font(3.2rem)
+    @include font(3.2rem);
 }
 
 @mixin font-largest {
-    @include font(4.2rem)
+    @include font(4.2rem);
+}
+
+@mixin font-intro {
+    @include font(8rem);
+    text-align: center;
+    padding: 3vw;
 }
 
 // ↓↓↓ PADDINGS ↓↓↓

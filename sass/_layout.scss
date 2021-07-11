@@ -20,7 +20,6 @@ body {
     &-h2 {
         text-align: center;
     }
-    
 }
 
 .intro {
@@ -30,6 +29,11 @@ body {
     background-color: rgba(0, 0, 0, 0.85);
     min-width: 100vw;
     min-height: 100vh;
+
+    &__submit-players {
+        @include pad-box-intro;
+        margin-top: 1vw;
+    }
 
     .icon {
         $width: 7rem;
@@ -41,12 +45,14 @@ body {
         transition: all 0.3s;
 
         &:hover {
+            cursor: pointer;
             fill: var(--primary-color-default);
         }
       }
     
     &__h1 {
         @include font-intro;
+        color: var(--white-oldest)
     }
 
     &__players {

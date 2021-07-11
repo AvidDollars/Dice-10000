@@ -59,9 +59,11 @@ class SelectNumOfPlayers {
         if (e.target === this.rightArrEl && this.numOfPlayers < 6) {
             this.numOfPlayers++;
             this.updateNumerWindow();
+            form.addOrRemoveInputs(e, this.numOfPlayers);
         } else if (e.target === this.leftArrEl && this.numOfPlayers > 1) {
             this.numOfPlayers--;
             this.updateNumerWindow();
+            form.addOrRemoveInputs(e, this.numOfPlayers);
         }
     }
 
@@ -70,4 +72,29 @@ class SelectNumOfPlayers {
     }
 }
 
-new SelectNumOfPlayers()
+class PopulateForm {
+    constructor() {
+        this.form = select(".intro__submit-players");
+        this.formItems = this.form.children;
+    }
+
+    addOrRemoveInputs(e, numOfPlayers) {
+        cl(numOfPlayers)
+        if (e.target.classList.contains("intro__players-left")) {
+            // last input ↓
+            this.formItems[this.formItems.length - 2].remove();
+        } else if (e.target.classList.contains("intro__players-right")) {
+            this.createInput(numOfPlayers);
+        }
+    }
+
+    createInput(player) {
+        const inp = document.createElement("input");
+        inp.classList.add("intro__submit-form");
+        inp.placeholder = `player ${player}`;
+        this.form.insertBefore(inp, select(".intro__submit-btn"));
+    }
+}
+
+const numOfPlayers = new SelectNumOfPlayers();
+const form = new PopulateForm();

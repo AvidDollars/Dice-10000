@@ -1,0 +1,39 @@
+// to be customized for each project
+$color-change-small: 5%;
+$color-change-big: 17%;
+
+$primary-color: rgb(230, 70, 70);
+$secondary-color: rgb(226, 165, 50);
+
+$black: rgb(0, 0, 0);
+$grey: rgb(128, 128, 128);
+$white: rgb(255, 255, 255);
+
+// CSS custom properties are used instead of SASS variables so that they can be targeted with JavaScript
+:root {
+    --primary-color-lightest: #{lighten($primary-color, $color-change-big * 2)};
+    --primary-color-lighter: #{lighten($primary-color, $color-change-big)};
+    --primary-color-default: #{$primary-color};
+    --primary-color-darker: #{darken($primary-color, $color-change-big)};
+    --primary-color-darkest: #{darken($primary-color, $color-change-big * 2)};
+
+    --secondary-color-lightest: #{lighten($secondary-color, $color-change-big * 2)};
+    --secondary-color-lighter: #{lighten($secondary-color, $color-change-big)};
+    --secondary-color-default: #{$secondary-color};
+    --secondary-color-darker: #{darken($secondary-color, $color-change-big)};
+    --secondary-color-darkest: #{darken($secondary-color, $color-change-big * 2)};
+
+    --white-absolute: #{$white};
+    --white-older: #{darken($white, $color-change-small)};
+    --white-oldest: #{darken($white, $color-change-small * 2)};
+
+    --grey-color-lightest: #{lighten($grey, $color-change-big * 2)};
+    --grey-color-lighter: #{lighten($grey, $color-change-big)};
+    --grey-color-default: #{$grey};
+    --grey-color-darker: #{darken($grey, $color-change-big)};
+    --grey-color-darkest: #{darken($grey, $color-change-big * 2)};
+
+    --black-oldest: #{lighten($black, $color-change-small * 2)};
+    --black-older: #{lighten($black, $color-change-small)};
+    --black-absolute: #{$black};
+}

@@ -1,0 +1,7 @@
+// desktop 1st strategy media query
+// to be inserted on a different places with different key-value pairs
+@mixin media-max-width($width) {
+    @media (max-width: $width) {
+        @content;
+    }
+}

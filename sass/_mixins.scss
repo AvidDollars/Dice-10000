@@ -1,0 +1,62 @@
+// flexbox container
+@mixin flex-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+
+// box-shadows
+@mixin shadow (
+    $offset-x: 3px,
+    $offset-y: 2px,
+    $blur-radius: 3px,
+    $spread-radius: 2px,
+    $color: rgba(0, 0, 0, 0.2)) {
+        box-shadow: $offset-x $offset-y $blur-radius $spread-radius $color;
+    }
+
+@mixin shadow-small {
+    @include shadow(1px, 1px, 3px, 1px, rgba(0, 0, 0, 0.1))
+}
+
+// button
+@mixin button($bg: $primary-color) {
+    @include shadow-small;
+
+    background-color: $bg;
+    border: none;
+    padding: 0.2vw 0.5vw;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+// button that changes color after hover
+// SASS variables or valid CSS colors must be used as an $bg parameter
+// CSS property is not valid argument for $bg parameter
+@mixin button-dark($bg: $primary-color, $change: 15%) {
+    @include button($bg);
+
+    &:hover {
+        cursor: pointer;
+        background-color: #{darken($bg, $change)};
+    }
+}
+
+@mixin button-light($bg: $primary-color, $change: 15%) {
+    @include button($bg);
+
+    &:hover {
+        cursor: pointer;
+        background-color: #{lighten($bg, $change)};
+    }
+}
+
+// centering block level elements
+// does not work with inline and inline-block level elements
+@mixin centered-block($width: 60vw) {
+    width: $width;
+    margin: auto;
+    margin-top: 3rem;
+    border-radius: 10px;
+}

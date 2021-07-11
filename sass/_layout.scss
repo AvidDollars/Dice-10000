@@ -33,18 +33,22 @@ body {
 
     &__player-text {
         @include font-large;
+        padding-right: $pad-right-vw;
     }
 
     &__player-name {
         @include font-largest;
+        @include pad-box-1(var(--primary-color-lighter));
     }
 
     &__score-text {
         @include font-large;
+        padding-right: $pad-right-vw;
     }
 
     &__score-value {
         @include font-largest;
+        @include pad-box-1(var(--primary-color-lighter));
     }
     
 }
@@ -52,6 +56,18 @@ body {
 .main {
     grid-column: 1 / span 1;
     grid-row: 2 / -1;
+
+    .cubes {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-between;
+        justify-content: center;
+
+        @include centered-block;
+        width: 40vw;
+        // ↓ TO BE DELETED
+        border: 2px solid var(--grey-color-lightest);
+    }
 
     &__cube {
         display: grid;
@@ -63,10 +79,18 @@ body {
         width: 10vw;
         height: 10vw;
 
-        border: 2px solid var(--black-oldest);
+        border: 2px solid var(--grey-color-lightest);
+        margin: $margin-cube;
 
         @include shadow-small;
         border-radius: $bd-rad-medium;
+
+        transition: all 0.3s;
+
+        &:hover {
+            cursor: pointer;
+            background-color: var(--primary-color-lightest)
+        }
 
         .dot {
             @include circle-box(var(--primary-color-darker));

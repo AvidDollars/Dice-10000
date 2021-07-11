@@ -26,6 +26,8 @@
 // ↓↓↓ PADDINGS ↓↓↓
 $bd-rad-medium: 10px;
 $pad-medium-vw: 0.2vw 0.8vw;
+$margin-cube: 1vw;
+$pad-right-vw: 0.5vw;
 
 @mixin pad-box($padding: $pad-medium-vw) {
     padding: $padding;

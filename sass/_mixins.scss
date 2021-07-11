@@ -57,6 +57,5 @@
 @mixin centered-block($width: 60vw) {
     width: $width;
     margin: auto;
-    margin-top: 3rem;
     border-radius: 10px;
 }

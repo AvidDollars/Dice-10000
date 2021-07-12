@@ -144,6 +144,45 @@ class Players {
     }
 }
 
+class Cube {
+    // mappings for dots on a cube
+    1 = [5];
+    2 = [3, 7];
+    3 = [3, 5, 7];
+    4 = [1, 3, 7, 9];
+    5 = [1, 3, 5, 7, 9];
+    6 = [1, 3, 4, 6, 7, 9];
+
+    // pass argument as a string number, eg. "1"
+    constructor(number) {
+        this.number = this[number];
+        this.div = create("div");
+        this.div.classList.add("main__cube");
+
+        this.number.forEach(num => {
+            const div2 = create("div");
+            div2.classList.add("dot");
+            div2.classList.add(`dot--${num}`);
+            this.div.appendChild(div2);
+        })
+    }
+
+    // returns cube
+    get() {
+        return this.div;
+    }
+
+    static populateScreen() {
+        const cubeContainer = select(".cubes");
+
+        for (let i = 1; i < 7; i++) {
+            const cube = new Cube(`${i}`).get();
+            cubeContainer.appendChild(cube);
+        }
+    }
+}
+
 const numOfPlayers = new SelectNumOfPlayers();
 const form = new PopulateForm();
 const players = new Players();
+Cube.populateScreen();

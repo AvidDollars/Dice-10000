@@ -101,14 +101,22 @@ body {
     grid-row: 1 / 2;
     background-color: var(--primary-color-default);
     color: var(--white-older);
+    @include margin;
+    @include shadow;
 
     @include flex-container;
     align-items: center;
     justify-content: space-evenly;
 
+    &__player {
+        @include pad-box-1(var(--primary-color-lightest));
+        @include shadow;
+    }
+
     &__player-text {
         @include font-large;
         padding-right: $pad-right-vw;
+        color: var(--primary-color-darkest);
     }
 
     &__player-name {
@@ -116,9 +124,15 @@ body {
         @include pad-box-1(var(--primary-color-lighter));
     }
 
+    &__score {
+        @include pad-box-1(var(--primary-color-lightest));
+        @include shadow;
+    }
+
     &__score-text {
         @include font-large;
         padding-right: $pad-right-vw;
+        color: var(--primary-color-darkest)
     }
 
     &__score-value {
@@ -233,21 +247,27 @@ body {
     grid-row: 2 / -1;
     background-color: var(--primary-color-darkest);
     color: var(--white-older);
+    @include margin;
+    margin-top: 0;
+    @include shadow;
 
     @include flex-container;
     flex-flow: column;
-    align-items: center;
+    //align-items: center;
 
     &__player {
         //border-bottom: 2px dotted var(--white-older);
         margin: 0.8vw;
         background-color: var(--primary-color-lighter);
-        @include pad-box-1(var(--primary-color-lighter))
+        @include pad-box-1(var(--primary-color-lighter));
+        align-self: center;
+        width: 75%;
     }
 
     &__h2 {
         @include font-largest;
-        margin-top: 2vw;
+        margin: 2vw 0;
+        align-self: center
     }
 
     &__player-name {

@@ -103,9 +103,47 @@ class PopulateForm {
         e.preventDefault();
         const items = Array.from(e.target.children).splice(0, e.target.children.length - 1);
         this.hideIntroScreen();
-        return items.map(el => el.value || el.placeholder);
+        const playersArr = items.map(el => el.value || el.placeholder);
+        players.getPlayers(playersArr);
+    }
+}
+
+class Players {
+    getPlayers(playersArr) {
+        this.players = playersArr;
+        this.setPlayers();
+    }
+
+    setPlayers() {
+        this.players.forEach(p => {
+            p = this.createPlayer(p);
+            select(".aside").appendChild(p);
+        })
+    }
+
+    createPlayer(player) {
+        const div = create("div");
+        div.classList.add("aside__player");
+
+        const h3 = create("h3");
+        h3.classList.add("aside__player-name");
+        h3.innerText = player;
+        div.appendChild(h3);
+
+        const span = create("span");
+        span.classList.add("aside__player-text");
+        span.innerText = "score: ";
+        div.appendChild(span);
+
+        const span2 = create("span");
+        span2.classList.add("aside__player-score");
+        span2.innerText = "0";
+        div.appendChild(span2);
+
+        return div;
     }
 }
 
 const numOfPlayers = new SelectNumOfPlayers();
 const form = new PopulateForm();
+const players = new Players();

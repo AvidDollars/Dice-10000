@@ -66,6 +66,24 @@ $pad-right-vw: 0.5vw;
     height: $size-of-parent;
 }
 
+// ↓↓↓ FLEX BOX FOR THE CONTENT OF MAIN SECTION ↓↓↓
+@mixin main-flex {
+    @include centered-block;
+    width: 40vw;
+    display: flex;
+}
+
+@mixin main-flex-cubes {
+    @include main-flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: center;
+}
+
+@mixin main-flex-buttons {
+    @include main-flex;
+}
+
 // ↓↓↓ HIDE ELEMENT ↓↓↓
 .hidden {
     display: none;

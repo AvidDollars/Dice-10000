@@ -143,7 +143,17 @@ body {
         @include centered-block;
         width: 40vw;
         // ↓ TO BE DELETED
-        border: 2px solid var(--grey-color-lightest);
+        // border: 2px solid var(--grey-color-lightest);
+    }
+
+    .roll {
+        display: flex;
+        @include button-dark;
+        color: var(--white-older);
+        margin: auto;
+        margin-top: 2vw;
+        @include font-largest;
+        padding: $pad-intro-vw;
     }
 
     &__cube {

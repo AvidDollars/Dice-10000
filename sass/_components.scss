@@ -66,6 +66,12 @@ $pad-right-vw: 0.5vw;
     height: $size-of-parent;
 }
 
+// ↓↓↓ MARGINS ↓↓↓
+@mixin margin($margin: 1vw, $bd-rad: $bd-rad-medium) {
+    margin: $margin;
+    border-radius: $bd-rad;
+}
+
 // ↓↓↓ FLEX BOX FOR THE CONTENT OF MAIN SECTION ↓↓↓
 @mixin main-flex {
     @include centered-block;

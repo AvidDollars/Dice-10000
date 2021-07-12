@@ -104,21 +104,25 @@ class PopulateForm {
         const items = Array.from(e.target.children).splice(0, e.target.children.length - 1);
         this.hideIntroScreen();
         const playersArr = items.map(el => el.value || el.placeholder);
-        players.getPlayers(playersArr);
+        players.getAndSetPlayers(playersArr);
     }
 }
 
 class Players {
-    getPlayers(playersArr) {
+    getAndSetPlayers(playersArr) {
         this.players = playersArr;
         this.setPlayers();
     }
 
     setPlayers() {
+        select(".header__player-name").innerText = this.players[0];
         this.players.forEach(p => {
             p = this.createPlayer(p);
             select(".aside").appendChild(p);
+            game.getPlayer(p);
         })
+
+        game.setCurrentPlayer();
     }
 
     createPlayer(player) {
@@ -182,7 +186,27 @@ class Cube {
     }
 }
 
+class Game {
+    constructor() {
+        this.players = [];
+        this.idx = 0;
+    }
+
+    getPlayer(player) {
+        this.players.push(player);
+    }
+
+    setCurrentPlayer() {
+        const len = this.players.length;
+        this.currPlayer = this.players[this.idx % len];
+        cl(this.currPlayer);
+        this.currPlayer.classList.add("shining")
+        this.idx++;
+    }
+}
+
 const numOfPlayers = new SelectNumOfPlayers();
 const form = new PopulateForm();
 const players = new Players();
+const game = new Game();
 Cube.populateScreen();

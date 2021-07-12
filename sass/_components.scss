@@ -70,3 +70,9 @@ $pad-right-vw: 0.5vw;
 .hidden {
     display: none;
 }
+
+.shining {
+    box-shadow: 0px 0px 12px 6px rgba($primary-color, 0.5);
+    color: var(--primary-color-darkest);
+    background-color: pink;
+}

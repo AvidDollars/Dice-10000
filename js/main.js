@@ -76,10 +76,10 @@ class PopulateForm {
     constructor() {
         this.form = select(".intro__submit-players");
         this.formItems = this.form.children;
+        select(".intro__submit-players").addEventListener("submit", this.giveFormPlayers.bind(this));
     }
 
     addOrRemoveInputs(e, numOfPlayers) {
-        cl(numOfPlayers)
         if (e.target.classList.contains("intro__players-left")) {
             // last input ↓
             this.formItems[this.formItems.length - 2].remove();
@@ -93,6 +93,17 @@ class PopulateForm {
         inp.classList.add("intro__submit-form");
         inp.placeholder = `player ${player}`;
         this.form.insertBefore(inp, select(".intro__submit-btn"));
+    }
+
+    hideIntroScreen() {
+        select(".intro").classList.add("hidden");
+    }
+
+    giveFormPlayers(e) {
+        e.preventDefault();
+        const items = Array.from(e.target.children).splice(0, e.target.children.length - 1);
+        this.hideIntroScreen();
+        return items.map(el => el.value || el.placeholder);
     }
 }
 

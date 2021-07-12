@@ -15,6 +15,7 @@ body {
 .intro__players {
     &-container {
         @include pad-box-intro;
+        @include shadow($color: rgba(223, 223, 223, 0.8));
     }
 
     &-h2 {
@@ -32,7 +33,28 @@ body {
 
     &__submit-players {
         @include pad-box-intro;
+        @include shadow($color: rgba(223, 223, 223, 0.8));
         margin-top: 1vw;
+    }
+
+    &__submit-form {
+        display: block;
+        margin: $margin-cube;
+        background-color: var(--white-older);
+        width: 33%;
+        padding: $pad-medium-vw;
+        border: none;
+        border-radius: $bd-rad-medium;
+        @include font-input;
+    }
+
+    &__submit-btn {
+        @include button-dark;
+        color: var(--white-oldest);
+        font-size: 2rem;
+        display: block;
+        margin: auto;
+        margin-top: 3vw;
     }
 
     .icon {

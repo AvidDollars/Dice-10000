@@ -190,6 +190,8 @@ class Game {
     constructor() {
         this.players = [];
         this.idx = 0;
+        // ↓ to be deleted
+        select(".roll").addEventListener("click", this.setCurrentPlayer.bind(this))
     }
 
     getPlayer(player) {
@@ -199,8 +201,16 @@ class Game {
     setCurrentPlayer() {
         const len = this.players.length;
         this.currPlayer = this.players[this.idx % len];
-        cl(this.currPlayer);
-        this.currPlayer.classList.add("shining")
+
+        const [name, score] = this.currPlayer.innerText.split("\n");
+    
+        select(".header__player-name").innerText = name;
+        select(".header__score-value").innerText = score.split(" ")[1];
+
+        this.previousPlayer = this.players[(this.idx + len - 1) % len];
+
+        this.previousPlayer.classList.remove("shining");
+        this.currPlayer.classList.add("shining");
         this.idx++;
     }
 }

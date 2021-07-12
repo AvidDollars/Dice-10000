@@ -42,6 +42,17 @@ function cl(item) {
     console.log(item);
 }
 
+// generates random integer, taken from:
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+
+    //The maximum is exclusive and the minimum is inclusive
+    return Math.floor(Math.random() * (max - min) + min);
+  }
+  
+
 // ↓↓↓ INTRO SECTION ↓↓↓
 class SelectNumOfPlayers {
     constructor() {
@@ -176,12 +187,25 @@ class Cube {
         return this.div;
     }
 
-    static populateScreen() {
+    // roll() {
+    //     cl(this.get())
+    // }
+
+    static populateScreen(shuffle=false) {
         const cubeContainer = select(".cubes");
 
         for (let i = 1; i < 7; i++) {
-            const cube = new Cube(`${i}`).get();
+            const cube = new Cube(`${Cube.linearOrShuffle(shuffle, i)}`).get();
             cubeContainer.appendChild(cube);
+        }
+    }
+
+    static linearOrShuffle(shuffle, num) {
+        if (shuffle === false) {
+            return num;
+
+        } else if (shuffle === true) {
+            return getRandomInt(1, 7);
         }
     }
 }
@@ -190,8 +214,8 @@ class Game {
     constructor() {
         this.players = [];
         this.idx = 0;
-        // ↓ to be deleted
-        select(".roll").addEventListener("click", this.setCurrentPlayer.bind(this))
+        this.cubes = select(".cubes");
+        select(".roll").addEventListener("click", this.diceRoller.bind(this));
     }
 
     getPlayer(player) {
@@ -212,6 +236,11 @@ class Game {
         this.previousPlayer.classList.remove("shining");
         this.currPlayer.classList.add("shining");
         this.idx++;
+    }
+
+    diceRoller() {
+        Array.from(this.cubes.children).forEach(child => child.remove());
+        Cube.populateScreen(true);
     }
 }
 

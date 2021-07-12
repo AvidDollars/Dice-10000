@@ -148,6 +148,7 @@ body {
                 padding: $pad-intro-vw;
                 width: 45%;
                 justify-content: center;
+                @include shadow;
             }
         }
     }

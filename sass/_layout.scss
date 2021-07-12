@@ -133,25 +133,23 @@ body {
     grid-row: 2 / -1;
 
     .cubes {
-        display: flex;
-        flex-wrap: wrap;
-        align-content: space-between;
-        justify-content: center;
+        @include main-flex-cubes;
 
-        @include centered-block;
-        width: 40vw;
-        // ↓ TO BE DELETED
-        // border: 2px solid var(--grey-color-lightest);
-    }
-
-    .roll {
-        display: flex;
-        @include button-dark;
-        color: var(--white-older);
-        margin: auto;
-        margin-top: 2vw;
-        @include font-largest;
-        padding: $pad-intro-vw;
+        &__buttons {
+            @include main-flex-buttons;
+            
+            &-btn {
+                display: flex;
+                @include button-dark;
+                color: var(--white-older);
+                margin: auto;
+                margin-top: 2vw;
+                @include font-largest;
+                padding: $pad-intro-vw;
+                width: 45%;
+                justify-content: center;
+            }
+        }
     }
 
     &__cube {
@@ -253,6 +251,7 @@ body {
 
     &__player-name {
         @include font-large;
+        text-align: center
     }
 
     &__player-text {

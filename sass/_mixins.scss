@@ -32,7 +32,7 @@
 }
 
 // button that changes color after hover
-// SASS variables or valid CSS colors must be used as an $bg parameter
+// SASS variables or valid CSS colors must be used as a $bg parameter
 // CSS property is not valid argument for $bg parameter
 @mixin button-dark($bg: $primary-color, $change: 15%) {
     @include button($bg);

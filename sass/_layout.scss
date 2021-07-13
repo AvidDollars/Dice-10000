@@ -15,10 +15,12 @@ body {
 .intro__players {
     &-container {
         @include pad-box-intro;
+        background-color: var(--primary-color-darker);
     }
 
     &-h2 {
         text-align: center;
+        color: var(--white-older)
     }
 }
 
@@ -33,6 +35,7 @@ body {
     &__submit-players {
         @include pad-box-intro;
         margin-top: 1vw;
+        background-color: var(--primary-color-lighter);
     }
 
     &__submit-form {
@@ -49,6 +52,7 @@ body {
     &__submit-btn {
         @include button-dark;
         color: var(--white-oldest);
+        background-color: var(--primary-color-darkest);
         font-size: 2rem;
         display: block;
         margin: auto;
@@ -60,19 +64,21 @@ body {
         width: $width; 
         height: $width;
         margin: 0.5em;
-        fill: var(--grey-color-darkest);
+        fill: var(--white-older);
 
         transition: all 0.3s;
 
         &:hover {
             cursor: pointer;
-            fill: var(--primary-color-default);
+            fill: var(--primary-color-darkest);
         }
       }
     
     &__h1 {
         @include font-intro;
-        color: var(--white-oldest)
+        @include pad-box-intro;
+        background-color: var(--primary-color-default);
+        color: var(--primary-color-lightest)
     }
 
     &__players {
@@ -82,6 +88,7 @@ body {
 
         &-num {
             @include font-intro;
+            color: var(--white-older);
         }
     }
 }

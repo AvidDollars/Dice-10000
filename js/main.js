@@ -191,11 +191,11 @@ class Cube {
     // }
 
     static populateScreen(shuffle = false) {
-        const cubeContainer = select(".cubes");
+        this.cubeContainer = select(".cubes");
 
         for (let i = 1; i < 7; i++) {
             const cube = new Cube(`${Cube.linearOrShuffle(shuffle, i)}`).get();
-            cubeContainer.appendChild(cube);
+            this.cubeContainer.appendChild(cube);
         }
     }
 
@@ -250,6 +250,10 @@ class Game {
             const interval = intervalsSequence[i];
             setTimeout(this.diceRoller.bind(this), interval);
         }
+    }
+
+    selectCubes() {
+
     }
 }
 

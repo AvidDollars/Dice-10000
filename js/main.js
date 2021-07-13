@@ -168,9 +168,8 @@ class Cube {
     5 = [1, 3, 5, 7, 9];
     6 = [1, 3, 4, 6, 7, 9];
 
-    // pass argument as a string number, eg. "1"
     constructor(number) {
-        this.number = this[number];
+        this.number = this[`${number}`];
         this.div = create("div");
         this.div.classList.add("main__cube");
 

@@ -50,15 +50,15 @@ function getRandomInt(min, max) {
 
     //The maximum is exclusive and the minimum is inclusive
     return Math.floor(Math.random() * (max - min) + min);
-  }
-  
+}
+
 
 // ↓↓↓ INTRO SECTION ↓↓↓
 class SelectNumOfPlayers {
     constructor() {
         this.playersEl = select(".intro__players-num");
         this.numOfPlayers = this.playersEl.innerText;
-        
+
         this.leftArrEl = select(".intro__players-left");
         this.leftArrEl.addEventListener("click", this.changeNumber.bind(this));
 
@@ -191,7 +191,7 @@ class Cube {
     //     cl(this.get())
     // }
 
-    static populateScreen(shuffle=false) {
+    static populateScreen(shuffle = false) {
         const cubeContainer = select(".cubes");
 
         for (let i = 1; i < 7; i++) {
@@ -215,7 +215,7 @@ class Game {
         this.players = [];
         this.idx = 0;
         this.cubes = select(".cubes");
-        select(".roll").addEventListener("click", this.diceRoller.bind(this));
+        select(".roll").addEventListener("click", this.diceRollerVisual.bind(this));
     }
 
     getPlayer(player) {
@@ -227,7 +227,7 @@ class Game {
         this.currPlayer = this.players[this.idx % len];
 
         const [name, score] = this.currPlayer.innerText.split("\n");
-    
+
         select(".header__player-name").innerText = name;
         select(".header__score-value").innerText = score.split(" ")[1];
 
@@ -241,6 +241,16 @@ class Game {
     diceRoller() {
         Array.from(this.cubes.children).forEach(child => child.remove());
         Cube.populateScreen(true);
+    }
+
+    diceRollerVisual() {
+        // intervals in which diceRoller method is invoked
+        const intervalsSequence = [0, 20, 40, 60, 80, 100, 150, 200, 250, 300, 400, 500, 600];
+
+        for (let i = 0; i < intervalsSequence.length; i++) {
+            const interval = intervalsSequence[i];
+            setTimeout(this.diceRoller.bind(this), interval);
+        }
     }
 }
 

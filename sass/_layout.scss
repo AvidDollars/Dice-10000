@@ -212,7 +212,7 @@ body {
         border: 2px solid var(--grey-color-lightest);
         margin: $margin-cube;
 
-        @include shadow-small;
+        //@include shadow-small;
         border-radius: $bd-rad-medium;
 
         transition: all 0.3s;

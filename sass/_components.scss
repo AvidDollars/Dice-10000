@@ -35,12 +35,14 @@
     padding: 2vw;
 }
 
-// ↓↓↓ PADDINGS ↓↓↓
+// ↓↓↓ VARIABLES ↓↓↓
 $bd-rad-medium: 10px;
 $pad-medium-vw: 0.2vw 0.8vw;
 $pad-intro-vw: 1vw 2vw;
 $margin-cube: 1vw;
+$margin-header: 2vw;
 $pad-right-vw: 0.5vw;
+$menu-vw: 6vw;
 
 @mixin pad-box($padding: $pad-medium-vw) {
     padding: $padding;

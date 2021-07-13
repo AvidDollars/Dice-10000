@@ -42,6 +42,10 @@ function cl(item) {
     console.log(item);
 }
 
+function cd(item) {
+    console.dir(item);
+}
+
 // generates random integer, taken from:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 function getRandomInt(min, max) {
@@ -191,11 +195,16 @@ class Cube {
     // }
 
     static populateScreen(shuffle = false) {
-        this.cubeContainer = select(".cubes");
+        Cube.cubeContainer = select(".cubes");
 
         for (let i = 1; i < 7; i++) {
             const cube = new Cube(`${Cube.linearOrShuffle(shuffle, i)}`).get();
-            this.cubeContainer.appendChild(cube);
+            Cube.cubeContainer.appendChild(cube);
+        }
+
+        // will be marked as cubes that needs to be rolled before they can be selected
+        if (!shuffle) {
+            Array.from(Cube.cubeContainer.children).forEach(cube => cube.dataset.rolled = false)
         }
     }
 
@@ -215,6 +224,7 @@ class Game {
         this.idx = 0;
         this.cubes = select(".cubes");
         select(".roll").addEventListener("click", this.diceRollerVisual.bind(this));
+        Cube.cubeContainer.addEventListener("click", this.selectCubes.bind(this));
     }
 
     getPlayer(player) {
@@ -252,13 +262,45 @@ class Game {
         }
     }
 
-    selectCubes() {
+    selectCubes(e) {
+        if (this.checkIfCubesRolled()) {
+            this.cubesNotRolledAlert();
+            return;
+        }
 
+        if (e.target.classList.contains("main__cube")) {
+            this.toggleCubesSelection(e.target);
+        } else if (e.target.classList.contains("dot")) {
+            this.toggleCubesSelection(e.target.parentNode);
+        }
+    }
+
+    cubesNotRolledAlert() {
+        cl(window.event)
+    }
+
+    checkIfCubesRolled() {
+        return Array
+            .from(Cube.cubeContainer.children)
+            .every(cube => cube.dataset.rolled === "false");
+    }
+
+    toggleCubesSelection(target) {
+        if (target.dataset.selected === "true") {
+            target.dataset.selected = false;
+            target.style.backgroundColor = "var(--white-older)";
+            target.classList.remove("shining");
+
+        } else if (!target.dataset.selected || target.dataset.selected === "false") {
+            target.dataset.selected = true;
+            target.style.backgroundColor = "var(--primary-color-default)";
+            target.classList.add("shining");
+        }
     }
 }
 
+Cube.populateScreen();
 const numOfPlayers = new SelectNumOfPlayers();
 const form = new PopulateForm();
 const players = new Players();
 const game = new Game();
-Cube.populateScreen();

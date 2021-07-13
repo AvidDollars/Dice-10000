@@ -106,7 +106,32 @@ body {
 
     @include flex-container;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
+
+    &__menu {
+        &-icon {
+            @include flex-container;
+            //width: $size-100px;
+            width: $menu-vw;
+            height: $menu-vw;
+            margin-left: $margin-header;
+            fill: var(--white-older);
+
+            transition: all 0.3s;
+
+            &:hover {
+                cursor: pointer;
+                fill: var(--primary-color-darkest);
+            }
+        }
+    }
+
+    .wrapper-header {
+        & > * {
+            display: inline-block;
+            margin-right: $margin-header;
+        }
+    }
 
     &__player {
         @include pad-box-1(var(--primary-color-lightest));

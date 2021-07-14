@@ -56,6 +56,9 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
+// sum helper function
+const sum = (acc, currVal) => acc + currVal
+
 
 // ↓↓↓ INTRO SECTION ↓↓↓
 class SelectNumOfPlayers {
@@ -63,11 +66,11 @@ class SelectNumOfPlayers {
         this.playersEl = select(".intro__players-num");
         this.numOfPlayers = this.playersEl.innerText;
 
-        this.leftArrEl = select(".intro__players-left");
-        this.leftArrEl.addEventListener("click", this.changeNumber.bind(this));
+        this.leftArrEl = select(".intro__players-left")
+            .addEventListener("click", this.changeNumber.bind(this));
 
-        this.rightArrEl = select(".intro__players-right");
-        this.rightArrEl.addEventListener("click", this.changeNumber.bind(this));
+        this.rightArrEl = select(".intro__players-right")
+            .addEventListener("click", this.changeNumber.bind(this));
     }
 
     changeNumber(e) {
@@ -357,12 +360,41 @@ class Game {
 
         // extracting currently selected values
         const valuesArr = this.currPlayer.currValues.map(cube => cube.children.length);
-        this.evaluateValueOfRoll(valuesArr);
+        cl(this.evaluateValueOfRoll(valuesArr));
     }
 
     evaluateValueOfRoll(values) {
         cl(values)
+        switch (values.length) {
+            case 1: return this.evaluateOneDieRoll(values[0]);
+            case 2: return this.evaluateTwoDiceRoll(values);
+            case 3: return this.evaluateThreeDiceRoll(values);
+            default: return 0;
+        }
+
         // at the end return currentValue
+    }
+
+    evaluateOneDieRoll(value) {
+        if (value === 1) return 100;
+        else if (value === 5) return 50;
+        return 0;
+    }
+
+    evaluateTwoDiceRoll(values) {
+        return values
+            .map(value => this.evaluateOneDieRoll(value))
+            .reduce(sum);
+    }
+
+    evaluateThreeDiceRoll(values) {
+        if (values.every((v, i) => v === [1, 1, 1][i])) return 1000;
+        else {
+            const firstVal = values[0];
+            if (values.every(v => v === firstVal)) return firstVal * 100;
+            const filtered = values.filter(v => v === 1 || v === 5);
+            return this.evaluateTwoDiceRoll(filtered);
+        }
     }
 
     // add logic

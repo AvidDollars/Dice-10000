@@ -124,6 +124,10 @@ class PopulateForm {
 }
 
 class Players {
+
+    // will contain instances of Player class for easy access for current and total score
+    list = [];
+
     getAndSetPlayers(playersArr) {
         this.players = playersArr;
         this.setPlayers();
@@ -131,10 +135,10 @@ class Players {
 
     setPlayers() {
         select(".header__player-name").innerText = this.players[0];
-        this.players.forEach(p => {
+        this.players.forEach((p, listIdx) => {
             p = this.createPlayer(p);
             select(".aside").appendChild(p);
-            game.getPlayer(p);
+            game.getPlayer(this.list[listIdx]);
         })
 
         game.setCurrentPlayer();
@@ -159,14 +163,18 @@ class Players {
         span2.innerText = "0";
         div.appendChild(span2);
 
+        this.list.push(new Player(div, 0, 0))
+
         return div;
     }
 }
 
 class Player {
-    constructor(currScore, totalScore) {
+    constructor(object, currScore, totalScore) {
+        this.object = object;
         this.currScore = currScore;
         this.totalScore = totalScore;
+        this.currValues = [];
     }
 }
 
@@ -230,7 +238,7 @@ class Game {
         this.cubes = select(".cubes");
 
         select(".roll").addEventListener("click", this.diceRollerVisual.bind(this));
-        select(".next-player").addEventListener("click", this.changePlayer.bind(this))
+        select(".next-player").addEventListener("click", this.changePlayer.bind(this));
         Cube.cubeContainer.addEventListener("click", this.selectCubes.bind(this));
     }
 
@@ -242,15 +250,15 @@ class Game {
         const len = this.players.length;
         this.currPlayer = this.players[this.idx % len];
 
-        const [name, score] = this.currPlayer.innerText.split("\n");
+        const [name, score] = this.currPlayer.object.innerText.split("\n");
 
         select(".header__player-name").innerText = name;
         select(".header__score-value").innerText = score.split(" ")[1];
 
         this.previousPlayer = this.players[(this.idx + len - 1) % len];
 
-        this.previousPlayer.classList.remove("shining");
-        this.currPlayer.classList.add("shining");
+        this.previousPlayer.object.classList.remove("shining");
+        this.currPlayer.object.classList.add("shining");
         this.idx++;
     }
 
@@ -331,11 +339,30 @@ class Game {
             target.style.backgroundColor = "var(--primary-color-default)";
             target.classList.add("shining");
         }
+
+        this.setPlayersCurrScore(target, target.dataset.selected);
     }
 
     // add logic
-    setPlayersCurrScore() {
+    setPlayersCurrScore(target, ifSelected) {
+        const selected = ifSelected === "true" ? true : false;
+        const vals = this.currPlayer.currValues;
 
+        if (!vals.includes(target) && selected) {
+            vals.push(target);
+        } else if (vals.includes(target) && !selected) {
+            const filtered = vals.filter(item => item !== target);
+            this.currPlayer.currValues = filtered;
+        }
+
+        // extracting currently selected values
+        const valuesArr = this.currPlayer.currValues.map(cube => cube.children.length);
+        this.evaluateValueOfRoll(valuesArr);
+    }
+
+    evaluateValueOfRoll(values) {
+        cl(values)
+        // at the end return currentValue
     }
 
     // add logic

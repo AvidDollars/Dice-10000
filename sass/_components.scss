@@ -101,3 +101,12 @@ $menu-vw: 6vw;
     box-shadow: 0px 0px 12px 6px rgba($primary-color, 0.5);
     color: var(--primary-color-darkest);
 }
+
+.roll-dice-alert {
+    display: inline-block;
+    color: var(--white-older);
+    position: absolute;
+    transform: translateY(-100%);
+    @include font-medium;
+    @include pad-box-1(rgba(0, 0, 0, 0.7));
+}

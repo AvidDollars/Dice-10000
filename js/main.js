@@ -276,7 +276,31 @@ class Game {
     }
 
     cubesNotRolledAlert() {
-        cl(window.event)
+        // ↓↓↓ POPUP THAT SHOWS YOU NEED ROLL THE DICE FIRST BEFORE SELECTION
+        //
+
+        // const e = window.event;
+        // const [x, y] = [e.clientX, e.clientY];
+        // const span = create("span");
+        // span.innerText = "roll the dice first!";
+        // span.classList.add("roll-dice-alert");
+        // span.style.left = `${x}px`;
+        // span.style.top = `${y}px`;
+        // select("html").appendChild(span);
+        // setTimeout(() => span.remove(), 1000);
+
+        select(".roll").animate([
+            // keyframes
+            { transform: 'rotate(0deg)' },
+            { transform: 'rotate(5deg)' },
+            { transform: 'rotate(-5deg)' },
+            { transform: 'rotate(0deg)' }
+
+        ], {
+            // timing options
+            duration: 300,
+            iterations: 1
+        });
     }
 
     checkIfCubesRolled() {

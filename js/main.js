@@ -163,6 +163,13 @@ class Players {
     }
 }
 
+class Player {
+    constructor(currScore, totalScore) {
+        this.currScore = currScore;
+        this.totalScore = totalScore;
+    }
+}
+
 class Cube {
     // mappings for dots on a cube
     1 = [5];
@@ -221,7 +228,9 @@ class Game {
         this.players = [];
         this.idx = 0;
         this.cubes = select(".cubes");
+
         select(".roll").addEventListener("click", this.diceRollerVisual.bind(this));
+        select(".next-player").addEventListener("click", this.changePlayer.bind(this))
         Cube.cubeContainer.addEventListener("click", this.selectCubes.bind(this));
     }
 
@@ -245,9 +254,13 @@ class Game {
         this.idx++;
     }
 
-    diceRoller() {
+    diceRoller(shuffle = true) {
+        this.clearCubesFromScreen();
+        Cube.populateScreen(shuffle);
+    }
+
+    clearCubesFromScreen() {
         Array.from(this.cubes.children).forEach(child => child.remove());
-        Cube.populateScreen(true);
     }
 
     diceRollerVisual() {
@@ -318,6 +331,18 @@ class Game {
             target.style.backgroundColor = "var(--primary-color-default)";
             target.classList.add("shining");
         }
+    }
+
+    // add logic
+    setPlayersCurrScore() {
+
+    }
+
+    // add logic
+    changePlayer() {
+        // ↓↓↓ clears screen for next player
+        this.diceRoller(false);
+        this.setCurrentPlayer();
     }
 }
 

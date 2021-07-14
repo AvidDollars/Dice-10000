@@ -199,12 +199,10 @@ class Cube {
 
         for (let i = 1; i < 7; i++) {
             const cube = new Cube(`${Cube.linearOrShuffle(shuffle, i)}`).get();
-            Cube.cubeContainer.appendChild(cube);
-        }
 
-        // will be marked as cubes that needs to be rolled before they can be selected
-        if (!shuffle) {
-            Array.from(Cube.cubeContainer.children).forEach(cube => cube.dataset.rolled = false)
+            // will be marked as cubes that needs to be rolled before they can be selected
+            if (shuffle === false) cube.dataset.rolled = false;
+            Cube.cubeContainer.appendChild(cube);
         }
     }
 

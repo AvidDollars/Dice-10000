@@ -430,14 +430,10 @@ class Game {
     }
 
     evaluateThreeDiceRoll(values) {
-        // values.every((value, index) => value === [1, 1, 1][index])
         if (compareTwoArrays(values, [1, 1, 1])) return 1000;
         else {
-            //const firstVal = values[0];
-            //if (values.every(v => v === firstVal)) return firstVal * 100;
             const val = AllValuesAreSame(values);
             if (val) return val;
-
             const filtered = values.filter(v => v === 1 || v === 5);
             return this.evaluateTwoDiceRoll(filtered);
         }
@@ -445,10 +441,6 @@ class Game {
 
     evaluateFourDiceRoll(values) {
         if (compareTwoArrays(values, [1, 1, 1, 1])) return 2000;
-        // if (!AllValuesAreSame(values)) {
-        //     cl("four")
-        // }
-
         const areSame = AllValuesAreSame(values);
         if (areSame) return areSame;
 
@@ -456,30 +448,6 @@ class Game {
             .map(arr => this.evaluateValueOfRoll(arr))
             .reduce(sum)
         )
-
-        // ↓↓↓ ISSUES WITH INFINITE RECURSION ↓↓↓
-        // ↓↓↓ implementation should be optimized, this is just for testing purposes
-        // bug - infinite recursion hit with this sequence of selected numbers: 2224 + also 5551
-
-        // const oneOrFiveArr = values.filter(v => v === 1 || v === 5);
-        // const otherNumsArr = values.filter(v => !(v === 1) && !(v === 5));
-
-
-
-        // avoiding infinite recursion
-        // to be done - split eg 2224 on 222 + 4
-        // 2244 - not needed for this case
-
-        // if (otherNumsArr.length === 4) {
-        //     cl(separateDifferentNumbers(otherNumsArr));
-        // }
-
-        // if (oneOrFiveArr.length === 4) {
-        //     cl(separateDifferentNumbers(oneOrFiveArr));
-        // }
-
-        //return this.evaluateValueOfRoll(oneOrFiveArr) + this.evaluateValueOfRoll(otherNumsArr);
-
     }
 
     // add logic

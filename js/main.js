@@ -56,9 +56,48 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
-// sum helper function
-const sum = (acc, currVal) => acc + currVal
+// ↓↓↓ SMALL HELPER FUNCTIONS ↓↓↓
+const sum = (acc, currVal) => acc + currVal;
 
+// TODO (if necessary, add optional parameter 'sorted' and implement logic for comparing two sorted arrays)
+const compareTwoArrays = function (arr1, arr2) {
+    return arr1.every((value, index) => value === arr2[index]);
+}
+
+// checks if all the numbers of array are the same and if so, it returns corresponding score for a dice roll, false otherwise
+const AllValuesAreSame = function (arr) {
+    const coefficient = arr.length - 2;
+    if (arr.every(v => v === arr[0])) return arr[0] * (coefficient * 100);
+    return false;
+}
+
+// ↓↓↓ HELPER FUNCTIONS FOR PROCESSING DICE ROLLS ↓↓↓
+
+// eg.: [2, 2, 2, 4] → {2: 3, 4: 1}
+function countForEachNum(arr) {
+    const obj = {};
+    arr.forEach(num => {
+        if (!(num in obj)) obj[`${num}`] = 1;
+        else if (num in obj) obj[`${num}`] += 1;
+    })
+    return obj;
+}
+
+// eg.: {2: 3, 4: 1} → [[2, 2, 2], [4]]
+function arraysFromObj(obj) {
+    const arr = [];
+    for (const k in obj) {
+        const res = Array(obj[k]).fill(Number(k));
+        arr.push(res)
+    }
+    return arr;
+}
+
+// eg.: [2, 2, 2, 4] → [[2, 2, 2], [4]]
+function separateDifferentNumbers(arr) {
+    const o = countForEachNum(arr);
+    return arraysFromObj(o);
+}
 
 // ↓↓↓ INTRO SECTION ↓↓↓
 class SelectNumOfPlayers {
@@ -369,6 +408,9 @@ class Game {
             case 1: return this.evaluateOneDieRoll(values[0]);
             case 2: return this.evaluateTwoDiceRoll(values);
             case 3: return this.evaluateThreeDiceRoll(values);
+            case 4: return this.evaluateFourDiceRoll(values);
+            //case 5: return this.evaluateFiveDiceRoll(values);
+            //case 6: return this.evaluateSixDiceRoll(values);
             default: return 0;
         }
 
@@ -384,17 +426,60 @@ class Game {
     evaluateTwoDiceRoll(values) {
         return values
             .map(value => this.evaluateOneDieRoll(value))
-            .reduce(sum);
+            .reduce(sum, 0);
     }
 
     evaluateThreeDiceRoll(values) {
-        if (values.every((v, i) => v === [1, 1, 1][i])) return 1000;
+        // values.every((value, index) => value === [1, 1, 1][index])
+        if (compareTwoArrays(values, [1, 1, 1])) return 1000;
         else {
-            const firstVal = values[0];
-            if (values.every(v => v === firstVal)) return firstVal * 100;
+            //const firstVal = values[0];
+            //if (values.every(v => v === firstVal)) return firstVal * 100;
+            const val = AllValuesAreSame(values);
+            if (val) return val;
+
             const filtered = values.filter(v => v === 1 || v === 5);
             return this.evaluateTwoDiceRoll(filtered);
         }
+    }
+
+    evaluateFourDiceRoll(values) {
+        if (compareTwoArrays(values, [1, 1, 1, 1])) return 2000;
+        // if (!AllValuesAreSame(values)) {
+        //     cl("four")
+        // }
+
+        const areSame = AllValuesAreSame(values);
+        if (areSame) return areSame;
+
+        cd(separateDifferentNumbers(values)
+            .map(arr => this.evaluateValueOfRoll(arr))
+            .reduce(sum)
+        )
+
+        // ↓↓↓ ISSUES WITH INFINITE RECURSION ↓↓↓
+        // ↓↓↓ implementation should be optimized, this is just for testing purposes
+        // bug - infinite recursion hit with this sequence of selected numbers: 2224 + also 5551
+
+        // const oneOrFiveArr = values.filter(v => v === 1 || v === 5);
+        // const otherNumsArr = values.filter(v => !(v === 1) && !(v === 5));
+
+
+
+        // avoiding infinite recursion
+        // to be done - split eg 2224 on 222 + 4
+        // 2244 - not needed for this case
+
+        // if (otherNumsArr.length === 4) {
+        //     cl(separateDifferentNumbers(otherNumsArr));
+        // }
+
+        // if (oneOrFiveArr.length === 4) {
+        //     cl(separateDifferentNumbers(oneOrFiveArr));
+        // }
+
+        //return this.evaluateValueOfRoll(oneOrFiveArr) + this.evaluateValueOfRoll(otherNumsArr);
+
     }
 
     // add logic

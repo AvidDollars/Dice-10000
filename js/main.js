@@ -65,9 +65,22 @@ const compareTwoArrays = function (arr1, arr2) {
 }
 
 // checks if all the numbers of array are the same and if so, it returns corresponding score for a dice roll, false otherwise
-const AllValuesAreSame = function (arr) {
-    const coefficient = arr.length - 2;
-    if (arr.every(v => v === arr[0])) return arr[0] * (coefficient * 100);
+// mode switches evaluation for roll in which dice have all the same value (except for value of 1)
+const AllValuesAreSame = function (arr, mode = "two") {
+    const n = (arr.every(n => n === 1)) ? 3 : 2;
+    const coefficient = arr.length - n;
+
+    if (n === 3)
+        return 1000 * 2 ** (coefficient);
+
+    // [2, 2, 2] → 200, [3, 3, 3, 3] → 600, [4, 4, 4, 4, 4] → 1200, [5, 5, 5, 5, 5, 5] → 2000 
+    if (arr.every(v => v === arr[0]) && mode === "two")
+        return arr[0] * (coefficient * 100);
+
+    // [2, 2, 2] → 200, [3, 3, 3, 3] → 600, [4, 4, 4, 4, 4] → 1600, [5, 5, 5, 5, 5, 5] → 4000
+    if (arr.every(v => v === arr[0]) && mode === "base")
+        return arr[0] * 100 * 2 ** (coefficient - 1);
+
     return false;
 }
 
@@ -94,10 +107,28 @@ function arraysFromObj(obj) {
 }
 
 // eg.: [2, 2, 2, 4] → [[2, 2, 2], [4]]
-function separateDifferentNumbers(arr) {
+function separateDifferentNumbers(arr, sixDie = false) {
     const o = countForEachNum(arr);
+
+    // hackish approach for evaluation of 6 die roll with potential of having three pairs or 1-6 straight
+    if (sixDie === true) {
+
+        // if [1, 2, 3, 4, 5, 6]
+        if (arr.length === new Set(arr).size) return arraysFromObj({ 1: 3, 5: 3 })
+
+        for (const k in o) {
+            if (k == 1 || k == 5 || o[k] !== 2) break
+
+            else {
+                // score for eg. [2, 2, 3, 3, 4, 4] is the same as the score for [5, 5, 5, 5]
+                return arraysFromObj({ 5: 4 })
+            }
+        }
+    }
+
     return arraysFromObj(o);
 }
+
 
 // ↓↓↓ INTRO SECTION ↓↓↓
 class SelectNumOfPlayers {
@@ -316,7 +347,6 @@ class Game {
     diceRollerVisual() {
         // intervals in which diceRoller method is invoked
         const intervalsSequence = [0, 20, 40, 60, 80, 100, 150, 200, 250, 300, 400, 500, 600];
-
         for (let i = 0; i < intervalsSequence.length; i++) {
             const interval = intervalsSequence[i];
             setTimeout(this.diceRoller.bind(this), interval);
@@ -405,16 +435,12 @@ class Game {
     evaluateValueOfRoll(values) {
         cl(values)
         switch (values.length) {
+            case 0: return 0;
             case 1: return this.evaluateOneDieRoll(values[0]);
             case 2: return this.evaluateTwoDiceRoll(values);
             case 3: return this.evaluateThreeDiceRoll(values);
-            case 4: return this.evaluateFourDiceRoll(values);
-            //case 5: return this.evaluateFiveDiceRoll(values);
-            //case 6: return this.evaluateSixDiceRoll(values);
-            default: return 0;
+            default: return this.evaluateFourToSixDiceRoll(values);
         }
-
-        // at the end return currentValue
     }
 
     evaluateOneDieRoll(value) {
@@ -430,24 +456,20 @@ class Game {
     }
 
     evaluateThreeDiceRoll(values) {
-        if (compareTwoArrays(values, [1, 1, 1])) return 1000;
-        else {
-            const val = AllValuesAreSame(values);
-            if (val) return val;
-            const filtered = values.filter(v => v === 1 || v === 5);
-            return this.evaluateTwoDiceRoll(filtered);
-        }
-    }
-
-    evaluateFourDiceRoll(values) {
-        if (compareTwoArrays(values, [1, 1, 1, 1])) return 2000;
         const areSame = AllValuesAreSame(values);
         if (areSame) return areSame;
+        const filtered = values.filter(v => v === 1 || v === 5);
+        return this.evaluateTwoDiceRoll(filtered);
+    }
 
-        cd(separateDifferentNumbers(values)
+    evaluateFourToSixDiceRoll(values) {
+        // sixDice = potential tree pairs or 1-6 traight
+        const sixDice = (values.length === 6) ? true : false
+        const areSame = AllValuesAreSame(values);
+        if (areSame) return areSame;
+        return separateDifferentNumbers(values, sixDice)
             .map(arr => this.evaluateValueOfRoll(arr))
             .reduce(sum)
-        )
     }
 
     // add logic

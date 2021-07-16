@@ -144,11 +144,11 @@ class SelectNumOfPlayers {
     }
 
     changeNumber(e) {
-        if (e.target === this.rightArrEl && this.numOfPlayers < 6) {
+        if (e.target.classList.contains("intro__players-right") && this.numOfPlayers < 6) {
             this.numOfPlayers++;
             this.updateNumerWindow();
             form.addOrRemoveInputs(e, this.numOfPlayers);
-        } else if (e.target === this.leftArrEl && this.numOfPlayers > 1) {
+        } else if (e.target.classList.contains("intro__players-left") && this.numOfPlayers > 1) {
             this.numOfPlayers--;
             this.updateNumerWindow();
             form.addOrRemoveInputs(e, this.numOfPlayers);

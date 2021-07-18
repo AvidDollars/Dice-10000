@@ -117,7 +117,7 @@ function separateDifferentNumbers(arr, sixDie = false) {
         if (arr.length === new Set(arr).size) return arraysFromObj({ 1: 3, 5: 3 })
 
         for (const k in o) {
-            if (k == 1 || k == 5 || o[k] !== 2) break;
+            if (o[k] !== 2) break;
 
             else {
                 // score for eg. [2, 2, 3, 3, 4, 4] is the same as the score for [5, 5, 5, 5]

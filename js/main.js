@@ -117,11 +117,11 @@ function separateDifferentNumbers(arr, sixDie = false) {
         if (arr.length === new Set(arr).size) return arraysFromObj({ 1: 3, 5: 3 })
 
         for (const k in o) {
-            if (k == 1 || k == 5 || o[k] !== 2) break
+            if (k == 1 || k == 5 || o[k] !== 2) break;
 
             else {
                 // score for eg. [2, 2, 3, 3, 4, 4] is the same as the score for [5, 5, 5, 5]
-                return arraysFromObj({ 5: 4 })
+                return arraysFromObj({ 5: 4 });
             }
         }
     }
@@ -136,27 +136,23 @@ class SelectNumOfPlayers {
         this.playersEl = select(".intro__players-num");
         this.numOfPlayers = this.playersEl.innerText;
 
-        this.leftArrEl = select(".intro__players-left")
-            .addEventListener("click", this.changeNumber.bind(this));
-
-        this.rightArrEl = select(".intro__players-right")
-            .addEventListener("click", this.changeNumber.bind(this));
+        [
+            ".intro__players-left",
+            ".intro__players-right"
+        ].forEach(element => {
+            select(element).addEventListener("click", this.changeNumber.bind(this))
+        })
     }
 
     changeNumber(e) {
         if (e.target.classList.contains("intro__players-right") && this.numOfPlayers < 6) {
             this.numOfPlayers++;
-            this.updateNumerWindow();
-            form.addOrRemoveInputs(e, this.numOfPlayers);
         } else if (e.target.classList.contains("intro__players-left") && this.numOfPlayers > 1) {
             this.numOfPlayers--;
-            this.updateNumerWindow();
-            form.addOrRemoveInputs(e, this.numOfPlayers);
         }
-    }
 
-    updateNumerWindow() {
         this.playersEl.innerText = this.numOfPlayers;
+        form.addOrRemoveInputs(e, this.numOfPlayers);
     }
 }
 
@@ -191,7 +187,7 @@ class PopulateForm {
         e.preventDefault();
         const items = Array.from(e.target.children).splice(0, e.target.children.length - 1);
         this.hideIntroScreen();
-        const playersArr = items.map(el => el.value || el.placeholder);
+        const playersArr = items.map(el => el.value.trim() || el.placeholder);
         players.getAndSetPlayers(playersArr);
     }
 }
@@ -277,10 +273,6 @@ class Cube {
     get() {
         return this.div;
     }
-
-    // roll() {
-    //     cl(this.get())
-    // }
 
     static populateScreen(shuffle = false) {
         Cube.cubeContainer = select(".cubes");
@@ -433,6 +425,7 @@ class Game {
     }
 
     evaluateValueOfRoll(values) {
+        // ↓↓↓ to be removed
         cl(values)
         switch (values.length) {
             case 0: return 0;

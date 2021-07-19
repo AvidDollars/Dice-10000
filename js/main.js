@@ -243,6 +243,7 @@ class Player {
         this.object = object;
         this.currScore = currScore;
         this.totalScore = totalScore;
+        // ↓↓↓ maybe redundant
         this.currValues = [];
     }
 }
@@ -274,10 +275,10 @@ class Cube {
         return this.div;
     }
 
-    static populateScreen(shuffle = false) {
+    static populateScreen(dieToRoll = 6, shuffle = false) {
         Cube.cubeContainer = select(".cubes");
 
-        for (let i = 1; i < 7; i++) {
+        for (let i = 1; i <= dieToRoll; i++) {
             const cube = new Cube(`${Cube.linearOrShuffle(shuffle, i)}`).get();
 
             // will be marked as cubes that needs to be rolled before they can be selected
@@ -328,12 +329,34 @@ class Game {
     }
 
     diceRoller(shuffle = true) {
-        this.clearCubesFromScreen();
-        Cube.populateScreen(shuffle);
+        const dieToRoll = this.clearCubesFromScreen();
+        Cube.populateScreen(dieToRoll, shuffle);
     }
 
-    clearCubesFromScreen() {
-        Array.from(this.cubes.children).forEach(child => child.remove());
+    clearCubesFromScreen(switchedPlayer = false) {
+        // ↓↓↓ if player is switched
+        if (switchedPlayer === true) {
+            Array.from(this.cubes.children).forEach(child => child.remove());
+            Cube.populateScreen(6);
+            return;
+        }
+
+        // ↓↓↓ if player is not switched
+        let toBeRemoved = 0;
+
+        Array.from(this.cubes.children).forEach(child => {
+            const isNotRolled = (child.dataset.rolled === "false" || child.dataset.rolled === undefined);
+            const isNotSelected = !(child.dataset.selected === "true");
+
+            if (isNotRolled && isNotSelected) {
+                child.remove();
+            } else {
+                toBeRemoved++;
+            }
+        });
+
+        const dieToRoll = 6 - toBeRemoved;
+        return dieToRoll;
     }
 
     diceRollerVisual() {
@@ -343,6 +366,15 @@ class Game {
             const interval = intervalsSequence[i];
             setTimeout(this.diceRoller.bind(this), interval);
         }
+
+        Array.from(this.cubes.children).forEach(child => {
+            if (child.dataset.selected === "true") {
+                child.dataset.frozen = "true";
+
+                // dots
+                Array.from(child.children).forEach(child => child.dataset.frozen = "true");
+            }
+        })
     }
 
     selectCubes(e) {
@@ -350,6 +382,8 @@ class Game {
             this.cubesNotRolledAlert();
             return;
         }
+
+        if (e.target.dataset.frozen === "true") return;
 
         if (e.target.classList.contains("main__cube")) {
             this.toggleCubesSelection(e.target);
@@ -420,13 +454,20 @@ class Game {
         }
 
         // extracting currently selected values
-        const valuesArr = this.currPlayer.currValues.map(cube => cube.children.length);
-        cl(this.evaluateValueOfRoll(valuesArr));
+        const valuesArr = this.currPlayer.currValues
+            .filter(cube => cube.dataset.frozen !== "true")
+            .map(cube => cube.children.length);
+
+        const currScore = this.evaluateValueOfRoll(valuesArr);
+        this.updateCurrentScore(currScore);
+    }
+
+    // to be populated
+    updateCurrentScore(score) {
+        select(".header__score-value").innerText = score;
     }
 
     evaluateValueOfRoll(values) {
-        // ↓↓↓ to be removed
-        cl(values)
         switch (values.length) {
             case 0: return 0;
             case 1: return this.evaluateOneDieRoll(values[0]);
@@ -468,7 +509,7 @@ class Game {
     // add logic
     changePlayer() {
         // ↓↓↓ clears screen for next player
-        this.diceRoller(false);
+        this.clearCubesFromScreen(true);
         this.setCurrentPlayer();
     }
 }

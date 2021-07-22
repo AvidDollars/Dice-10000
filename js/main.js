@@ -242,7 +242,6 @@ class Player {
         this.object = object;
         this.currScore = currScore;
         this.totalScore = totalScore;
-        // ↓↓↓ maybe redundant
         this.currValues = [];
     }
 }
@@ -314,14 +313,12 @@ class Game {
     setCurrentPlayer() {
         const len = this.players.length;
         this.currPlayer = this.players[this.idx % len];
-
-        const [name, score] = this.currPlayer.object.innerText.split("\n");
+        const name = this.currPlayer.object.innerText.split("\n");
 
         select(".header__player-name").innerText = name;
-        select(".header__score-value").innerText = score.split(" ")[1];
+        select(".header__score-value").innerText = 0;
 
         this.previousPlayer = this.players[(this.idx + len - 1) % len];
-
         this.previousPlayer.object.classList.remove("shining");
         this.currPlayer.object.classList.add("shining");
         this.idx++;
@@ -374,6 +371,8 @@ class Game {
                 Array.from(child.children).forEach(child => child.dataset.frozen = "true");
             }
         })
+
+        this.currPlayer.currScore = Number(select(".header__score-value").innerText);
     }
 
     selectCubes(e) {
@@ -461,9 +460,9 @@ class Game {
         this.updateCurrentScore(currScore);
     }
 
-    // to be populated
     updateCurrentScore(score) {
-        select(".header__score-value").innerText = score;
+        const currPlayerScore = this.currPlayer.currScore;
+        select(".header__score-value").innerText = score + currPlayerScore;
     }
 
     evaluateValueOfRoll(values) {
@@ -505,10 +504,18 @@ class Game {
             .reduce(sum)
     }
 
-    // add logic
+    updateGlobalScore() {
+        this.currPlayer.totalScore += Number(select(".header__score-value").innerText)
+        this.currPlayer.object.childNodes[2].innerText = this.currPlayer.totalScore;
+        this.currPlayer.currScore = 0;
+        this.currPlayer.currValues = [];
+        select(".header__score-value").innerText = 0;
+    }
+
     changePlayer() {
         // ↓↓↓ clears screen for next player
         this.clearCubesFromScreen(true);
+        this.updateGlobalScore();
         this.setCurrentPlayer();
     }
 }

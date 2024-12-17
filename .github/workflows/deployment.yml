@@ -41,7 +41,7 @@ jobs:
 
       - name: Move content to "dist" folder
         run: |
-          mkdir dist && mv ./img/ ./js/ ./css/ index.thml ./dist
+          mkdir dist && mv ./img/ ./js/ ./css/ index.html ./dist
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

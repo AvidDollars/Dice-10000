@@ -1,4 +1,6 @@
-# dice-10000
-Implementation of Dice 10000 game in JavaScript
+# Dice 10000
 
-.scss files needs to be compiled to .css with SASS compiler
+Dice game created in vanilla JS.
+
+## Link to the game
+Visit [https://aviddollars.github.io/dice-10000/](https://aviddollars.github.io/dice-10000/) to play the game.

@@ -41,12 +41,12 @@ jobs:
 
       - name: Move content to "dist" folder
         run: |
-          mkdir dist && mv ./img/ ./js/ ./css/ index.html ./dist
+          mkdir ../dist && mv ./img/ ./js/ ./css/ index.html ../dist
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: dist
           
       - name: Deploy to GitHub Pages
         id: deployment

@@ -1,0 +1,17 @@
+{
+  "name": "typer-1000",
+  "version": "1.0.0",
+  "description": "Implementation of Dice 10000 game in JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile-sass": "sass --no-source-map --style=compressed ./sass:./css"
+  },
+  "keywords": [],
+  "author": "Dimitrij Kolničenko",
+  "license": "ISC",
+
+  "dependencies": {
+    "sass": "<3.0.0"
+  }
+}
